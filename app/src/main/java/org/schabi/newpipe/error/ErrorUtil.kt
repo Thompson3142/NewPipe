@@ -35,12 +35,19 @@ class ErrorUtil {
          * activity (since the workflow would be interrupted anyway in that case). So never use this
          * for background services.
          *
+         * If this method is called while the app has been in the background for more than
+         * 10 seconds it will not start an error activity and instead create a notification
+         *
          * @param context the context to use to start the new activity
          * @param errorInfo the error info to be reported
          */
         @JvmStatic
         fun openActivity(context: Context, errorInfo: ErrorInfo) {
-            context.startActivity(getErrorActivityIntent(context, errorInfo))
+            if (AppLifecycleObserver.getTimeSinceLastBackground() > 10000) {
+                createNotification(context, errorInfo)
+            } else {
+                context.startActivity(getErrorActivityIntent(context, errorInfo))
+            }
         }
 
         /**
