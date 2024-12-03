@@ -8,12 +8,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.preference.PreferenceManager;
 
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import org.acra.ACRA;
 import org.acra.config.CoreConfigurationBuilder;
+import org.schabi.newpipe.error.AppLifecycleObserver;
 import org.schabi.newpipe.error.ReCaptchaActivity;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.downloader.Downloader;
@@ -93,6 +95,9 @@ public class App extends Application {
         final int lastUsedPrefVersion = PreferenceManager.getDefaultSharedPreferences(this)
                 .getInt(getString(R.string.last_used_preferences_version), -1);
         isFirstRun = lastUsedPrefVersion == -1;
+
+        AppLifecycleObserver.INSTANCE.initialize(this);
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleObserver.INSTANCE);
 
         // Initialize settings first because other initializations can use its values
         NewPipeSettings.initSettings(this);

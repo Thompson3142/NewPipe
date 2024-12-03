@@ -43,7 +43,7 @@ class ErrorUtil {
          */
         @JvmStatic
         fun openActivity(context: Context, errorInfo: ErrorInfo) {
-            if (AppLifecycleObserver.getTimeSinceLastBackground() > 10000) {
+            if (AppLifecycleObserver.isInBackground()) {
                 createNotification(context, errorInfo)
             } else {
                 context.startActivity(getErrorActivityIntent(context, errorInfo))

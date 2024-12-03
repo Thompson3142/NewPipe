@@ -1,32 +1,37 @@
 package org.schabi.newpipe.error
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import java.util.concurrent.atomic.AtomicLong
+import androidx.preference.PreferenceManager
 
 object AppLifecycleObserver : DefaultLifecycleObserver {
-    private var isInBackground = false
-    private val lastBackgroundTimestamp = AtomicLong(0)
+    private const val KEY_IS_IN_BACKGROUND = "is_in_background"
     private var TAG = javaClass.simpleName
+    private lateinit var sharedPreferences: SharedPreferences
+
+    fun initialize(context: Context) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    }
 
     override fun onStart(owner: LifecycleOwner) {
-        isInBackground = false
+        sharedPreferences.edit().putBoolean(KEY_IS_IN_BACKGROUND, false).apply()
         Log.d(TAG, "App moved to foreground")
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        isInBackground = true
-        lastBackgroundTimestamp.set(System.currentTimeMillis())
+        sharedPreferences.edit().putBoolean(KEY_IS_IN_BACKGROUND, true).apply()
         Log.d(TAG, "App moved to background")
     }
 
-    fun isAppInBackground(): Boolean = isInBackground
-
-    /**
-     * @return the elapsed time since the app moved to the background or 0 if it is in foreground
-     */
-    fun getTimeSinceLastBackground(): Long {
-        return if (isInBackground) System.currentTimeMillis() - lastBackgroundTimestamp.get() else 0
+    fun isInBackground(): Boolean {
+        Log.d(
+            TAG,
+            "Is in background? -" +
+                sharedPreferences.getBoolean(KEY_IS_IN_BACKGROUND, true)
+        )
+        return sharedPreferences.getBoolean(KEY_IS_IN_BACKGROUND, true)
     }
 }

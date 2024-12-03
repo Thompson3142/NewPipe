@@ -28,7 +28,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapterMenuWorkaround;
-import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -37,7 +36,6 @@ import com.google.android.material.tabs.TabLayout;
 import org.schabi.newpipe.BaseFragment;
 import org.schabi.newpipe.R;
 import org.schabi.newpipe.databinding.FragmentMainBinding;
-import org.schabi.newpipe.error.AppLifecycleObserver;
 import org.schabi.newpipe.error.ErrorUtil;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.local.playlist.LocalPlaylistFragment;
@@ -73,7 +71,6 @@ public class MainFragment extends BaseFragment implements TabLayout.OnTabSelecte
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleObserver.INSTANCE);
         setHasOptionsMenu(true);
         tabsManager = TabsManager.getManager(activity);
         tabsManager.setSavedTabsListener(() -> {
