@@ -13,6 +13,7 @@ import androidx.core.app.PendingIntentCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import org.schabi.newpipe.R
+import org.schabi.newpipe.error.AppLifecycleObserver.isInBackground
 
 /**
  * This class contains all of the methods that should be used to let the user know that an error has
@@ -35,15 +36,15 @@ class ErrorUtil {
          * activity (since the workflow would be interrupted anyway in that case). So never use this
          * for background services.
          *
-         * If this method is called while the app has been in the background for more than
-         * 10 seconds it will not start an error activity and instead create a notification
+         * If this method is called was called while the app was in the background previously open
+         * a notification instead
          *
          * @param context the context to use to start the new activity
          * @param errorInfo the error info to be reported
          */
         @JvmStatic
         fun openActivity(context: Context, errorInfo: ErrorInfo) {
-            if (AppLifecycleObserver.isInBackground()) {
+            if (isInBackground()) {
                 createNotification(context, errorInfo)
             } else {
                 context.startActivity(getErrorActivityIntent(context, errorInfo))

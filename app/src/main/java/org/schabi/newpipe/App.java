@@ -81,6 +81,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Initialize the AppLifecycleObserver
+        AppLifecycleObserver.INSTANCE.initialize(this);
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleObserver.INSTANCE);
 
         app = this;
 
@@ -95,9 +98,6 @@ public class App extends Application {
         final int lastUsedPrefVersion = PreferenceManager.getDefaultSharedPreferences(this)
                 .getInt(getString(R.string.last_used_preferences_version), -1);
         isFirstRun = lastUsedPrefVersion == -1;
-
-        AppLifecycleObserver.INSTANCE.initialize(this);
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleObserver.INSTANCE);
 
         // Initialize settings first because other initializations can use its values
         NewPipeSettings.initSettings(this);
