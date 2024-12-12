@@ -31,6 +31,11 @@ object AppLifecycleObserver : DefaultLifecycleObserver {
         Log.d(TAG, "App moved to background: ")
     }
 
+
+    /**
+     * Returns if the app is currently in the background
+     * or in case of a crash the state when the crash happened
+     */
     fun isInBackground(): Boolean {
         return sharedPreferences.getBoolean(KEY_IS_IN_BACKGROUND, true)
     }
