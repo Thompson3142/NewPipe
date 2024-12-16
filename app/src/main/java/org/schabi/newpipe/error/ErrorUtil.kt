@@ -36,8 +36,7 @@ class ErrorUtil {
          * activity (since the workflow would be interrupted anyway in that case). So never use this
          * for background services.
          *
-         * If this method is called was called while the app was in the background previously open
-         * a notification instead
+         * If the crashed while the app was in the background open a notification instead
          *
          * @param context the context to use to start the new activity
          * @param errorInfo the error info to be reported

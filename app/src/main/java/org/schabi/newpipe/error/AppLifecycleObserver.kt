@@ -23,12 +23,12 @@ object AppLifecycleObserver : DefaultLifecycleObserver {
 
     override fun onStart(owner: LifecycleOwner) {
         editor.putBoolean(KEY_IS_IN_BACKGROUND, false).commit()
-        Log.d(TAG, "App moved to foreground: ")
+        Log.d(TAG, "App moved to foreground")
     }
 
     override fun onPause(owner: LifecycleOwner) {
         editor.putBoolean(KEY_IS_IN_BACKGROUND, true).commit()
-        Log.d(TAG, "App moved to background: ")
+        Log.d(TAG, "App moved to background")
     }
 
 
