@@ -8,14 +8,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.preference.PreferenceManager;
 
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import org.acra.ACRA;
 import org.acra.config.CoreConfigurationBuilder;
-import org.schabi.newpipe.error.AppLifecycleObserver;
 import org.schabi.newpipe.error.ReCaptchaActivity;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.downloader.Downloader;
@@ -81,9 +79,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Initialize the AppLifecycleObserver
-        AppLifecycleObserver.INSTANCE.initialize(this);
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(AppLifecycleObserver.INSTANCE);
 
         app = this;
 
